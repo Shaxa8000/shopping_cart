@@ -59,19 +59,45 @@ let generateShop = () => {
 generateShop();
 
 let increment = (id) => {
-    let selectedItem = id;
-    console.log(selectedItem.id);
+  let selectedItem = id;
+  let search = basket.find((item) => item.id === selectedItem.id);
+
+  if (search === undefined) {
+    basket.push({
+    id: selectedItem.id,
+    item: 1
+  })
+  } else {
+    search.item += 1;
+  }
+  update(selectedItem.id);
+  // console.log(basket);
 };
 
 let decrement = (id) => {
-   let selectedItem = id;
-   console.log(selectedItem.id);
+  let selectedItem = id;
+  let search = basket.find((item) => item.id === selectedItem.id);
+
+  if (search.item === 0) return;
+  else {
+    search.item -= 1;
+  }
+  update(selectedItem.id);
+  // console.log(basket);
 };
 
-let update = () => {
-    
+let update = (id) => {
+  let search = basket.find((item) => item.id === id);
+  console.log(search.item);
+  document.getElementById(id).innerHTML = search.item;
+
+  calculation();
 };
 
+let calculation = () => {
+  let cartIcon = document.getElementById('cart-amount');
+  cartIcon.innerHTML = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
+}
 
 
 
